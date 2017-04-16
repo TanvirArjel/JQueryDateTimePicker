@@ -8,10 +8,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Employee</h4>
         <hr />
@@ -27,7 +27,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.JoiningDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.JoiningDate, new { htmlAttributes = new { @class = "form-control date-picker" } })
+                @Html.EditorFor(model => model.JoiningDate, new { htmlAttributes = new { @class = "form-control date-picker", onkeydown = "return false", onpaste = "return false" } })
                 @Html.ValidationMessageFor(model => model.JoiningDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -48,19 +48,25 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
     <script type="text/javascript">
-        $(function () {
-            $(".date-picker").datepicker({
-                changeMonth: true,
-                changeYear: true,
-                yearRange: "-100:+0",
-                dateFormat: 'dd/mm/yy'
+        $(document).ready(function () {
+            $(function () {
+                $(".date-picker").datepicker({
+                    changeMonth: true,
+                    changeYear: true,
+                    yearRange: "-100:+0",
+                    dateFormat: 'dd-M-yy'
+                });
             });
 
-            $(".date-picker").keydown(function (e) {
-                e.preventDefault();
-                return false;
-            });
-
+            jQuery.validator.methods.date = function (value, element) {
+                var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+                if (isChrome) {
+                    var d = new Date();
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+                } else {
+                    return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+                }
+            };
         });
 
     </script>

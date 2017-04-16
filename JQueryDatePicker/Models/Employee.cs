@@ -12,8 +12,9 @@ namespace JQueryDatePicker.Models
         [Required]
         [Display(Name = "Employee Name")]
         public string EmployeeName { get; set; }
-        [Required]
+
         [Display(Name = "Joining Date")]
-        public DateTime? JoiningDate { get; set; }
+        [DisplayFormat(DataFormatString = "{0: dd-MMM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime JoiningDate { get; set; }
     }
 }

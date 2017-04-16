@@ -12,7 +12,7 @@ namespace JQueryDatePicker.Controllers
 {
     public class EmployeeController : Controller
     {
-        private EmployeeDbContext db = new EmployeeDbContext();
+        private DatePickerDbContext db = new DatePickerDbContext();
 
         // GET: Employee
         public ActionResult Index()
